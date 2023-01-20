@@ -29,20 +29,20 @@ class ProgramCOntroller extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'name' => 'required|string|max:255',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:220',
             'desc' => 'required'
         ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors());       
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
         }
 
         $program = Program::create([
             'name' => $request->name,
             'desc' => $request->desc
-         ]);
-        
+        ]);
+
         return response()->json(['Program created successfully.', new ProgramResource($program)]);
     }
 
@@ -56,7 +56,7 @@ class ProgramCOntroller extends Controller
     {
         $program = Program::find($id);
         if (is_null($program)) {
-            return response()->json('Data not found', 404); 
+            return response()->json('Data not found', 404);
         }
         return response()->json([new ProgramResource($program)]);
     }
@@ -70,19 +70,19 @@ class ProgramCOntroller extends Controller
      */
     public function update(Request $request, Program $program)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'desc' => 'required'
         ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors());       
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
         }
 
         $program->name = $request->name;
         $program->desc = $request->desc;
         $program->save();
-        
+
         return response()->json(['Program updated successfully.', new ProgramResource($program)]);
     }
 
